@@ -2,5 +2,5 @@ using GildedRoseKata;
 
 public interface IItemUpdater
 {
-    void UpdateQuality(Item item);
+  void UpdateQuality(Item item);
 }
