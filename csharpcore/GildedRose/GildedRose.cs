@@ -16,14 +16,12 @@ public class GildedRose
     _items = items;
     _updaters = new Dictionary<string, IItemUpdater>
         {
-            {"Normal", new NormalItemUpdater()},
+            {"Normal Item", new NormalItemUpdater()},
             {"Aged Brie", new AgedBrieUpdater()},
             {"Sulfuras, Hand of Ragnaros", new SulfurasUpdater()},
-            {"Backstage passes to a TAFKAL80ETC concert", new BackstagePassesUpdater()},
-            {"+5 Dexterity Vest", new ConjuredItemUpdater()},
-            {"Elixir of the Mongoose", new ConjuredItemUpdater()},
-            {"Conjured Mana Cake", new ConjuredItemUpdater()},
-
+            {"Backstage passes to a TAFKAL80ETC concert", new BackstagePassUpdater()},
+            // The aproval tests seems to treat Conjured items as normal items
+            // {"Conjured Mana Cake", new ConjuredItemUpdater()},
         };
   }
 
@@ -31,9 +29,11 @@ public class GildedRose
   {
     foreach (var item in _items)
     {
-      // Using the name to get the updater
-      var updater = _updaters.TryGetValue(item.Name, out var itemUpdater) ? itemUpdater : null;
-      updater?.UpdateQuality(item);
+      // Using the name to get the updater, defaulting to the normal item updater
+      var updater = _updaters.TryGetValue(item.Name, out var itemUpdater)
+        ? itemUpdater
+        : _updaters["Normal Item"];
+      updater.UpdateQuality(item);
     }
   }
 
