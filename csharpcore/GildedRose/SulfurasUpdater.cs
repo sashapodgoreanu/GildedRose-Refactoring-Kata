@@ -4,6 +4,6 @@ public class SulfurasUpdater : IItemUpdater
 {
   public void UpdateQuality(Item item)
   {
-    throw new System.NotImplementedException();
+    // Sulfuras never has to be sold or decreases in quality
   }
 }

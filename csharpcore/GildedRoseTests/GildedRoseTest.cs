@@ -45,7 +45,7 @@ public class GildedRoseTest
   }
 
   [Test]
-  [TestCase(0, 0, 1, Description = "Quality increases by 1 when SellIn is 0")]
+  [TestCase(0, 0, 2, Description = "Quality increases by 1 when SellIn is 0")]
   [TestCase(10, 50, 50, Description = "Quality is capped at 50")]
   [TestCase(10, 49, 50, Description = "Quality increases by 1 within 50 limit")]
   [TestCase(2, 0, 1, Description = "Quality increases by 1 as it ages")]
@@ -62,5 +62,19 @@ public class GildedRoseTest
     Assert.That(item.SellIn, Is.EqualTo(sellIn - 1), "SellIn does not decrease as expected.");
     Assert.That(item.Quality, Is.EqualTo(expectedQualityAfterUpdate), "Quality update logic failed.");
   }
+
+   [Test]
+[TestCase(0, 80, 0, 80, Description = "Sulfuras, not sold or decreases in Quality")]
+[TestCase(-1, 80, -1, 80, Description = "Sulfuras, remains the same even after SellIn date")]
+[TestCase(10, 80, 10, 80, Description = "Sulfuras, Quality and SellIn remain unchanged")]
+public void SulfurasUpdateQualityTests(int sellIn, int initialQuality, int expectedSellIn, int expectedQuality)
+{
+    var item = new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = sellIn, Quality = initialQuality };
+    var app = new GildedRose(new List<Item> { item });
+    app.UpdateQuality();
+
+    Assert.That(item.SellIn, Is.EqualTo(expectedSellIn), "SellIn should remain unchanged for Sulfuras.");
+    Assert.That(item.Quality, Is.EqualTo(expectedQuality), "Quality should remain unchanged for Sulfuras.");
+}
 
 }

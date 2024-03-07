@@ -20,7 +20,10 @@ public class GildedRose
             {"Aged Brie", new AgedBrieUpdater()},
             {"Sulfuras, Hand of Ragnaros", new SulfurasUpdater()},
             {"Backstage passes to a TAFKAL80ETC concert", new BackstagePassesUpdater()},
-            {"Conjured", new ConjuredItemUpdater()}
+            {"+5 Dexterity Vest", new ConjuredItemUpdater()},
+            {"Elixir of the Mongoose", new ConjuredItemUpdater()},
+            {"Conjured Mana Cake", new ConjuredItemUpdater()},
+
         };
   }
 
@@ -29,8 +32,8 @@ public class GildedRose
     foreach (var item in _items)
     {
       // Using the name to get the updater
-      var updater = _updaters[item.Name];
-      updater.UpdateQuality(item);
+      var updater = _updaters.TryGetValue(item.Name, out var itemUpdater) ? itemUpdater : null;
+      updater?.UpdateQuality(item);
     }
   }
 
